@@ -30,6 +30,7 @@ public func configure(
     // Migrating model
     var migrations = MigrationConfig()
     migrations.add(model: User.self, database: .psql)
+    migrations.add(model: Message.self, database: .psql)
     services.register(migrations)
 
 
