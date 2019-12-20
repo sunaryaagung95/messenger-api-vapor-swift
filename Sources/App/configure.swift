@@ -31,6 +31,8 @@ public func configure(
     var migrations = MigrationConfig()
     migrations.add(model: User.self, database: .psql)
     migrations.add(model: Message.self, database: .psql)
+    migrations.add(model: Conversation.self, database: .psql)
+    migrations.add(model: Participant.self, database: .psql)
     services.register(migrations)
 
 
