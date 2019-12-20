@@ -7,8 +7,8 @@ final class Message {
 
 
     var id: UUID?
-    var content: String?
     let userID: User.ID
+    var content: String?
 
     public init(content: String, userID: User.ID) {
         self.content = content
