@@ -19,6 +19,9 @@ extension User {
     var messages: Children<User, Message> {
         return self.children(\.userID)
     }
+    var participants: Children<User, Participant> {
+        return self.children(\.userID)
+    }
 }
 
 extension User: Migration {

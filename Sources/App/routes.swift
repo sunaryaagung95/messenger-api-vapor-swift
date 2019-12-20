@@ -10,4 +10,5 @@ public func routes(_ router: Router) throws {
    try router.register(collection: UserController())
    try router.register(collection: MessageController())
    try router.register(collection: ConversationController())
+   try router.register(collection: ParticipantController())
 }
