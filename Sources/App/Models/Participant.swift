@@ -4,16 +4,23 @@ import FluentPostgreSQL
 
 final class Participant: Content {
     static let entity = "participants"
+    static let createdAtKey: TimestampKey? = \.createdAt
+    static let updatedAtKey: TimestampKey? = \.updatedAt
+
+    var createdAt: Date?
+    var updatedAt: Date?
 
     var id: UUID?
-    var userID: User.ID
-    var conversationID: Conversation.ID
+    var userID: UUID
+    var conversationID: UUID
 
-    public init(userID: User.ID, conversationID: Conversation.ID) {
+    public init(userID: UUID, conversationID: UUID) {
         self.userID = userID
         self.conversationID = conversationID
     }
 }
+
+
 
 extension Participant: Migration {}
 extension Participant: Parameter {}

@@ -4,12 +4,21 @@ import FluentPostgreSQL
 
 final class Conversation: Content {
     static let entity = "conversations"
+    static let createdAtKey: TimestampKey? = \.createdAt
+    static let updatedAtKey: TimestampKey? = \.updatedAt
+
+    var createdAt: Date?
+    var updatedAt: Date?
+
     var id: UUID?
 }
 
 extension Conversation {
     var participants: Children<Conversation, Participant> {
-        return self.children(\.conversationID)
+        return children(\.conversationID)
+    }
+    var messages: Children<Conversation, Message> {
+        return children(\.conversationID)
     }
 }
 

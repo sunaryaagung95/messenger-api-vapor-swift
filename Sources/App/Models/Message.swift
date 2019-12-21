@@ -4,27 +4,38 @@ import Foundation
 
 final class Message {
     static let entity = "messages"     //table name
-
+    static let createdAtKey: TimestampKey? = \.createdAt
+    static let updatedAtKey: TimestampKey? = \.updatedAt
 
     var id: UUID?
-    let userID: User.ID
+    var receiverID: UUID?
+    let senderID: UUID
+    let conversationID: UUID
     var content: String?
+    var createdAt: Date?
+    var updatedAt: Date?
 
-    public init(content: String, userID: User.ID) {
+    public init(content: String, userID: UUID, conversationID: UUID) {
         self.content = content
-        self.userID = userID
+        self.senderID = userID
+        self.conversationID = conversationID
     }
 }
 
-extension Message: Migration {
-    public static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {
-        return Database.create(self, on: connection) { builder in 
-            try addProperties(to: builder)
-            builder.reference(from: \.userID, to: \User.id)
-        }
+extension Message {
+    var sender: Parent<Message, User> {
+        return parent(\.senderID)
+    }
+    var receiver: Parent<Message, User>? {
+        return parent(\.receiverID)
+    }
+    var conversation: Parent<Message, Conversation> {
+        return parent(\.conversationID)
     }
 }
+
 
 extension Message: Content {}
 extension Message: Parameter {}
 extension Message: PostgreSQLUUIDModel {}
+extension Message: Migration { }

@@ -8,7 +8,7 @@ final class MessageController: RouteCollection {
 
         messages.post(Message.self, use: create)
         
-        messages.get(use: getAll)
+        messages.get(Conversation.parameter, use: getAll)
 
         messages.delete(Message.parameter, use: delete)
     }
@@ -18,7 +18,9 @@ final class MessageController: RouteCollection {
     }
 
     func getAll(_ req: Request) throws -> Future<[Message]> {
-        return Message.query(on: req).all()
+        return try req.parameters.next(Conversation.self).flatMap { conversation in
+            return try conversation.messages.query(on: req).all()
+        }
     }
 
     func delete(_ req: Request) throws -> Future<HTTPStatus> {
